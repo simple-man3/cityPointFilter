@@ -2,6 +2,8 @@
 
 namespace CP\Filter\tests;
 
+use CP\Filter\Services\SqlParser;
+use CP\Filter\Tokens\LikeExpr;
 use PHPUnit\Framework\TestCase;
 use CP\Filter\Filter;
 use CP\Filter\Tokens as T;
@@ -99,4 +101,13 @@ class FilterTest extends TestCase
         $this->assertEquals( $expect, $ast, 'not valid or' );
     }
 
+    public function testParseLikeExpression()
+    {
+        $parser = new SqlParser();
+        $result = $parser->parseLikeExpression('LIKE (field, "%test%")');
+
+        $this->assertInstanceOf(LikeExpr::class, $result);
+        $this->assertEquals('field', $result->value);
+        $this->assertEquals('%test%', $result->pattern);
+    }
 }
