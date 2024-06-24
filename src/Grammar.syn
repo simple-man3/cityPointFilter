@@ -47,8 +47,6 @@
             ['[A-Z]\\w+(\\.[A-Z]\\w+)*',  "return 'FIELDNAME'"],
 
             ['like', "return 'LIKE'"],
-            ['%', "return 'PERCENT'"],
-            ['_', "return 'UNDERSCORE'"],
         ]
     },
 
@@ -83,8 +81,6 @@
                    ["NULL",     "$$ = new Tokens\\NullVal()"  ] ]
 
         "PATTERN": [
-                    [ "PERCENT", "$$ = new Tokens\\Percent()" ],
-                    [ "UNDERSCORE", "$$ = new Tokens\\Underscore()" ],
                     [ "STRING", "$$ = new Tokens\\StrVal($1)" ]
         ],
     },

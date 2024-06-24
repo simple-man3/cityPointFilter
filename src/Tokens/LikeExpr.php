@@ -2,13 +2,25 @@
 
 namespace CP\Filter\Tokens;
 
-class LikeExpr
+class LikeExpr extends BinaryExpression
 {
-    public $value;
-    public $pattern;
+    private string $pattern;
 
-    public function __construct($value, $pattern) {
-        $this->value = $value;
-        $this->pattern = $pattern;
+    public function __construct(ASTNode $left, ASTNode $right) {
+        parent::__construct($left, $right);
+        $this->parse();
+    }
+
+    private function parse(): void {
+        $this->pattern = $this->right->apply([]);
+    }
+
+    public function apply(array $data): bool {
+        if (!isset($data[$this->left->apply([])])) {
+            return false;
+        }
+
+        $fieldValue = $data[$this->left->apply([])];
+        return (bool) preg_match("/{$this->pattern}/", $fieldValue);
     }
 }
